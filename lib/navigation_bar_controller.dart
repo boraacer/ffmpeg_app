@@ -22,7 +22,7 @@ class _BottomNavigationBarControllerState
       key: PageStorageKey('StreamsPage'),
     ),
     const ServersPage(
-      key: PageStorageKey('ServersPage'),
+      PageStorageKey('ServersPage'),
     ),
     const SettingsPage(key: PageStorageKey('SettingsPage')),
   ];
