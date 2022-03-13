@@ -56,8 +56,8 @@ class AddServerMobile extends StatefulWidget {
 }
 
 class _AddServerMobileState extends State<AddServerMobile> {
-  TextEditingController _hostControl = new TextEditingController();
-  TextEditingController _apikeyControl = new TextEditingController();
+  final TextEditingController _hostControl = TextEditingController();
+  final TextEditingController _apikeyControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
