@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'navigation_bar_controller.dart';
+import 'welcome_screen.dart';
 import 'servers.dart';
 
 void main() => runApp(const MyApp());
@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'FFmmpeg App',
-      home: const BottomNavigationBarController(),
+      home:  const WelcomeScreen(),
+      theme: ThemeData(),
       routes: routes,
     );
   }
