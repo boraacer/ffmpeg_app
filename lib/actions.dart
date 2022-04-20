@@ -1,42 +1,78 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-Future<void> main() async {
-  final jsonResponse =
-      await http.get(Uri.parse('http://192.168.13.25:4000/api'));
-  print(jsonDecode(jsonResponse.body.toString()).toString());
-}
+class ConnectionData with ChangeNotifier {
+  final authStorage = new FlutterSecureStorage();
 
-class ConnectionData with ChangeNotifier{
-  final AuthData _host = AuthData(host: "");
- 
+  Future<AuthData> authDevice(String host, String user, String password) async {
+    String? deviceId = await _getId();
 
-  Future<void> _loadUserData() async {
+    final response = await http.post(Uri.parse("$host/auth/new"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'user': user,
+          'password': password,
+          'device': deviceId!,
+        }));
+    if (response.statusCode == 200) {
+      return AuthData(
+          host: host, user: user, apiKey: json.decode(response.body)["apiKey"]);
+    } else {
+      throw Exception('Failed to create AuthData.');
+    }
+  }
+
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      // import 'dart:io'
+      IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else if (Platform.isAndroid) {
+      AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
+    return null;
+  }
+
+  Future<void> loadUserData() async {
     await SharedPreferences.getInstance().then((prefs) {
-      String host = prefs.getString(key)
+      // String host = prefs.getString(key)
     });
   }
 
-  Future<void> _saveUserData() async {
-    await SharedPreferences.getInstance().then((prefs) {
-      prefs.setString('192.168.13.25', _host.host);
-
-    });
+  Future<void> saveUserData(data) async {
+    await authStorage.write(key: "_AuthData", value: data.toString());
   }
 }
 
 class AuthData {
   final String host;
+  final String user;
+  final String apiKey;
 
-  AuthData({this.host = ''});
+  AuthData({
+    required this.host,
+    required this.user,
+    required this.apiKey,
+  });
 
-  AuthData.fromJson(Map<String, dynamic> json)
-      : host = json['host'];
+  factory AuthData.fromJson(Map<String, dynamic> json) {
+    return AuthData(
+      host: json['host'],
+      user: json['user'],
+      apiKey: json['apiKey'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        'host': host,
-      };
+  @override
+  toString() => {'host': host, 'user': user, 'password': apiKey}.toString();
 }
