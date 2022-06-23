@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'actions.dart';
+import 'navigation_bar_controller.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -15,10 +16,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   String password = "";
   Future<AuthData>? _authResponse;
 
-
-  Future<void> _submit() async {
+  Future<void> _submit(context) async {
+  
     _authResponse = ConnectionData().authDevice(host, user, password);
+    
     _authResponse!.then((value) => ConnectionData().saveUserData(value));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) =>
+              const BottomNavigationBarController(),
+        ));
   }
 
   @override
@@ -100,7 +108,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 8),
                             child: ElevatedButton(
-                                onPressed: _submit,
+                                onPressed: () => _submit(context),
                                 child: const Text('Submit')))),
                   ]));
         }));

@@ -8,11 +8,11 @@ class StreamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Strean Screen"),
+        title: const Text("Streams"),
       ),
       body: ListView.builder(itemBuilder: (context, index) {
         return ListTile(
-          title: const Text('Strean'),
+          title: const Text('Stream'),
           subtitle: Text('$index'),
         );
       }),

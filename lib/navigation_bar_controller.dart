@@ -39,7 +39,8 @@ class _BottomNavigationBarControllerState
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Streams'),
           BottomNavigationBarItem(icon: Icon(Icons.cloud), label: 'Servers'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: 'Settings'),
         ],
       );
 

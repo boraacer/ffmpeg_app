@@ -7,10 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("FFmpeg Manager",
-              style: TextStyle(color: Colors.black)),
-          backgroundColor:
-              Colors.white.withOpacity(0), //You can make this transparent
+          title: const Text("FFmpeg Manager"),
           elevation: 0.0,
         ),
         body: ListView(children: [
@@ -48,7 +45,7 @@ class ExtendedServerWidget extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
-          color: Colors.black, //change your color here
+          color: Colors.black,
         ),
       ),
     );

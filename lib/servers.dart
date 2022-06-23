@@ -1,7 +1,4 @@
-// ignore_for_file: unnecessary_const
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -20,9 +17,8 @@ class _ServersPageState extends State<ServersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Servers", style: TextStyle(color: Colors.black)),
-        backgroundColor:
-            Colors.white.withOpacity(0), //You can make this transparent
+        title: const Text("Servers"),
+      //You can make this transparent
         elevation: 0.0,
       ),
       body: ListView.builder(itemBuilder: (context, index) {
